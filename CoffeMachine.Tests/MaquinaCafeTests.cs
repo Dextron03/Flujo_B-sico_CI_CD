@@ -104,6 +104,34 @@ namespace CoffeMachine.Tests
             });
         }
 
+        // TC-09 (nueva funcionalidad): reabastecer suma unidades al stock existente.
+        [Test]
+        public void Reabastecer_SumaUnidadesAlStockExistente()
+        {
+            // ARRANGE: el Café inicia con 10 unidades.
+            _maquina.Reabastecer("Cafe", 5);
+
+            // ACT
+            var stock = _maquina.ObtenerMenu()["Cafe"].Stock;
+
+            // ASSERT
+            Assert.That(stock, Is.EqualTo(15));
+        }
+
+        // TC-10 (nueva funcionalidad): reabastecer una bebida inexistente lanza excepción.
+        [Test]
+        public void Reabastecer_BebidaInexistente_LanzaArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => _maquina.Reabastecer("Jugo", 5));
+        }
+
+        // TC-11 (nueva funcionalidad): reabastecer con unidades no positivas lanza excepción.
+        [Test]
+        public void Reabastecer_UnidadesNoPositivas_LanzaArgumentOutOfRangeException()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => _maquina.Reabastecer("Cafe", 0));
+        }
+
         // Refuerzo del patrón AAA: saldo exacto descuenta el saldo a cero.
         [Test]
         public void SeleccionarBebida_SaldoExacto_DescuentaSaldo()

@@ -66,5 +66,21 @@ namespace CoffeMachine
 
         /// <summary>TC-06: retorna el menú con las 3 bebidas y sus precios/stock.</summary>
         public Dictionary<string, Bebida> ObtenerMenu() => _menu;
+
+        /// <summary>
+        /// Nueva funcionalidad: reabastece el stock de una bebida sumando las
+        /// unidades indicadas a las existentes.
+        /// </summary>
+        /// <exception cref="ArgumentException">Si la bebida no existe en el menú.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Si las unidades no son positivas.</exception>
+        public void Reabastecer(string nombre, int unidades)
+        {
+            if (unidades <= 0)
+                throw new ArgumentOutOfRangeException(nameof(unidades),
+                    "Las unidades a reabastecer deben ser mayores que cero.");
+
+            var bebida = ObtenerBebidaOLanzar(nombre);
+            _menu[nombre] = bebida with { Stock = bebida.Stock + unidades };
+        }
     }
 }
